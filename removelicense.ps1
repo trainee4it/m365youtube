@@ -13,10 +13,10 @@ $users = Get-MgUser
 
 foreach($item in $users)
 {
-    $LicensesAssigned = (Get-MgUserLicenseDetail -UserId $item.Id).SkuId
-    foreach($LicensesAssigned in $EmsArray)
+    $LicensesAssigned = (Get-MgUserLicenseDetail -UserId $item.Id)
+    foreach($License in $EmsArray)
     {
-        if($LicensesAssigned -contains $License)
+        if($LicensesAssigned.SkuId -contains $License)
         {
             Set-MgUserLicense -UserId $item.id -RemoveLicenses @($License) -AddLicenses @{}
         }
