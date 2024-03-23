@@ -13,23 +13,29 @@ $users = Get-MgUser
 
 foreach($item in $users)
 {
+    
     $LicensesAssigned = (Get-MgUserLicenseDetail -UserId $item.Id)
-    foreach($License in $EmsArray)
+    if($LicensesAssigned)
     {
-        if($LicensesAssigned.SkuId -contains $License.SkuId)
+        foreach($License in $EmsArray)
         {
-            Set-MgUserLicense -UserId $item.id -RemoveLicenses @($License.SkuId) -AddLicenses @{}
-        }
-        else 
-        {
-           Write-Verbose -Message "$($item.UserPrincipalName) does not have license $($License.skupartnumber) " -Verbose
-           
-           #"$($item.UserPrincipalName) does not give"
+            if($LicensesAssigned.SkuId -contains $License.SkuId)
+            {
+                Set-MgUserLicense -UserId $item.id -RemoveLicenses @($License.SkuId) -AddLicenses @{}
+            }
+            else 
+            {
+            Write-Verbose -Message "$($item.UserPrincipalName) does not have license $($License.skupartnumber) " -Verbose
+            
+            #"$($item.UserPrincipalName) does not give"
 
+            }
+        
         }
-        sleep -Milliseconds 20
-
     }
-
-    sleep -Milliseconds 20
+    else 
+    {
+        Write-Verbose -Message "$($item.UserPrincipalName) does not have any licenses to take away" -Verbose
+    }
+    
 }
