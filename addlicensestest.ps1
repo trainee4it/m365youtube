@@ -1,3 +1,24 @@
+function Show-AvailableLicenses
+
+{
+    'choose which licenses you want to assign 1 -' + $EmsArray.Count + ' -1 to stop'
+    $EmsArray = (Get-MgSubscribedSku).SkuPartNumber
+    write-host $EmsArray
+    
+    [int]$Number = Read-Host
+    while($Number -ne -1)
+    {
+        
+        $ChosenArray += $EmsArray[$Number -1]
+        'choose which licenses you want to assign 1 -' + $EmsArray.Count + ' -1 to stop'
+        [int]$Number = Read-Host
+
+    }
+
+    $ChosenArray
+
+}
+
 
 try {
     
@@ -7,7 +28,7 @@ catch {
     Connect-MgGraph -Scopes User.ReadWrite.All, Organization.Read.All
 }
 
-$EmsArray = (Get-MgSubscribedSku).SkuId
+
 
 $users = Get-MgUser
 
