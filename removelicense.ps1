@@ -25,10 +25,8 @@ foreach($item in $users)
             }
             else 
             {
-            Write-Verbose -Message "$($item.UserPrincipalName) does not have license $($License.skupartnumber) " -Verbose
+                Write-Verbose -Message "$($item.UserPrincipalName) does not have license $($License.skupartnumber) " -Verbose
             
-            #"$($item.UserPrincipalName) does not give"
-
             }
         
         }
