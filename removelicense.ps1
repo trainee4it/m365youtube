@@ -14,7 +14,7 @@ $users = Get-MgUser
 foreach($item in $users)
 {
     $LicensesAssigned = (Get-MgUserLicenseDetail -UserId $item.Id).SkuId
-    foreach($License in $EmsArray)
+    foreach($LicensesAssigned in $EmsArray)
     {
         if($LicensesAssigned -contains $License)
         {
@@ -22,9 +22,13 @@ foreach($item in $users)
         }
         else 
         {
-           Write-Verbose -Message $item.UserPrincipalName does not have this license -Verbose
+           Write-Verbose -Message "$($item.UserPrincipalName) does not have license " -Verbose
+           
+           #"$($item.UserPrincipalName) does not give"
+
         }
         sleep -Milliseconds 20
+
     }
 
     sleep -Milliseconds 20
