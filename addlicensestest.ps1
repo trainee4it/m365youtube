@@ -23,8 +23,8 @@ foreach($item in $users)
             Set-MgUserLicense -UserId $item.id -RemoveLicenses @() -AddLicenses @{SkuId = $License}
 
         }
-        sleep 2
+        sleep -Milliseconds 20
     }
 
-    sleep 2
+    sleep -Milliseconds 20
 }

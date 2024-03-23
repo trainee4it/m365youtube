@@ -7,7 +7,7 @@ catch {
     Connect-MgGraph -Scopes User.ReadWrite.All, Organization.Read.All
 }
 
-$EmsArray = (Get-MgSubscribedSku).SkuId
+$EmsArray = (Get-MgSubscribedSku)
 
 $users = Get-MgUser
 
@@ -16,13 +16,13 @@ foreach($item in $users)
     $LicensesAssigned = (Get-MgUserLicenseDetail -UserId $item.Id)
     foreach($License in $EmsArray)
     {
-        if($LicensesAssigned.SkuId -contains $License)
+        if($LicensesAssigned.SkuId -contains $License.SkuId)
         {
-            Set-MgUserLicense -UserId $item.id -RemoveLicenses @($License) -AddLicenses @{}
+            Set-MgUserLicense -UserId $item.id -RemoveLicenses @($License.SkuId) -AddLicenses @{}
         }
         else 
         {
-           Write-Verbose -Message "$($item.UserPrincipalName) does not have license " -Verbose
+           Write-Verbose -Message "$($item.UserPrincipalName) does not have license $($License.skuidpartnumber) " -Verbose
            
            #"$($item.UserPrincipalName) does not give"
 
