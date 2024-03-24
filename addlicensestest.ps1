@@ -2,9 +2,13 @@ function Show-AvailableLicenses
 
 {
     'choose which licenses you want to assign 1 -' + $EmsArray.Count + ' -1 to stop'
-    $EmsArray = (Get-MgSubscribedSku).SkuPartNumber
-    write-host $EmsArray
-    
+    $EmsArray = (Get-MgSubscribedSku)
+    for($i = 0;$i -le $EmsArray.Count;++$i)
+    {
+        $HashTable = @{nummer=$i;Naam=$EmsArray[$i].SkuPartNumber;SKUID=$EmsArray[$i].SkuId}
+        $Object= New-Object -TypeName psobject -Property $HashTable
+        $Object
+    }
     [int]$Number = Read-Host
     while($Number -ne -1)
     {
